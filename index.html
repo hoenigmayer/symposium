@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - Between the Worlds Symposium 2027</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#111; --paper:#fff; --hairline:1px solid #111; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Inter', sans-serif; font-weight: 300;
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
+
+  .masthead { padding: 3.5rem 2rem 2.5rem; text-align: center; border-bottom: var(--hairline); }
+  .kicker { font-size:.7rem; letter-spacing:.45em; text-transform:uppercase; margin-bottom:1rem; }
+  .masthead h1 {
+    font-family:'Cormorant Garamond', serif; font-weight:400;
+    font-size: clamp(2.4rem, 6vw, 4.2rem); letter-spacing:.12em;
+  }
+  .sub { font-family:'Cormorant Garamond', serif; font-style:italic; font-size:1.05rem; margin-top:.75rem; color:#444; }
+
+  nav { border-top: var(--hairline); display:flex; flex-wrap:wrap; }
+  nav a {
+    flex:1 1 auto; text-align:center; padding:1.1rem .5rem;
+    font-size:.72rem; letter-spacing:.3em; text-transform:uppercase;
+    text-decoration:none; color:var(--ink);
+    border-right: var(--hairline);
+    transition: background .25s ease, color .25s ease;
+  }
+  nav a:last-child { border-right:none; }
+  nav a:hover { background:#f5f5f5; }
+  nav a.active { background:var(--ink); color:var(--paper); }
+
+  main { flex:1; display:flex; }
+  #stage { flex:1; width:100%; height:calc(100vh - 300px); min-height:480px; border:none; }
+
+  footer {
+    border-top: var(--hairline); display:flex; justify-content:space-between;
+    flex-wrap:wrap; gap:.5rem; padding:1.1rem 2rem;
+    font-size:.65rem; letter-spacing:.25em; text-transform:uppercase;
+  }
+  footer a { color:var(--ink); text-decoration:none; }
+  footer a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="masthead">
+      <div class="kicker">Third Edition . 01 - 02 April June 2027 . Vienna</div>
+      <h1>Between the Worlds Symposium</h1>
+      <div class="sub">Thinking beyond boarders</div>
+    </div>
+    <nav id="menu">
+      <a href="pages/about.html"    target="stage">About</a>
+      <a href="pages/speakers.html" target="stage">Speakers</a>
+      <a href="pages/program.html"  target="stage">Programme</a>
+      <a href="pages/venue.html"    target="stage">Venue</a>
+      <a href="pages/proceedings.html" target="stage">Proceedings</a>
+      <a href="pages/contact.html"  target="stage">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <iframe id="stage" name="stage" src="pages/about.html" title="Symposium content"></iframe>
+  </main>
+
+  <footer>
+    <span>© 2027 Between the Worlds Symposium</span>
+    <span><a href="pages/contact.html" target="stage">Press &amp; Inquiries</a></span>
+    <span>Vienna · Austria</span>
+  </footer>
+
+  <script>
+    const menu = document.getElementById('menu');
+    const frame = document.getElementById('stage');
+
+    const setActive = href => menu.querySelectorAll('a')
+      .forEach(a => a.classList.toggle('active', a.getAttribute('href') === href));
+
+    menu.addEventListener('click', e => {
+      if (e.target.tagName === 'A') {
+        setActive(e.target.getAttribute('href'));
+        history.replaceState(null, '', '?page=' +
+          encodeURIComponent(e.target.getAttribute('href')));
+      }
+    });
+    frame.addEventListener('load', () => setActive(frame.getAttribute('src')));
+
+    const page = new URLSearchParams(location.search).get('page');
+    if (page) frame.src = decodeURIComponent(page);
+  </script>
+</body>
+</html>
